@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819145418) do
+ActiveRecord::Schema.define(version: 20160819150719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(version: 20160819145418) do
     t.string   "code"
     t.datetime "valid_until"
     t.integer  "quantity"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "discount"
+    t.string   "discount_type"
   end
 
   create_table "orderlines", force: :cascade do |t|
