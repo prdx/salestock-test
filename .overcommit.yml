@@ -1,0 +1,11 @@
+PreCommit:
+    RuboCop:
+          enabled: true
+          #command: ['bundle', 'exec', 'rubocop']
+          include:
+                  - '**/*.rb'
+          exclude:
+                  - 'features/support/env.rb' 
+    HamlLint:
+          enabled: true
+verify_signatures: false
