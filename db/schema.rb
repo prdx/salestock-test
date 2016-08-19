@@ -10,14 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819142106) do
+ActiveRecord::Schema.define(version: 20160819145418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "coupons", force: :cascade do |t|
+    t.string   "code"
+    t.datetime "valid_until"
+    t.integer  "quantity"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "orderlines", force: :cascade do |t|
+    t.integer  "order_id"
+    t.integer  "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_orderlines_on_order_id", using: :btree
+    t.index ["product_id"], name: "index_orderlines_on_product_id", using: :btree
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string   "status"
+    t.integer  "coupon_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coupon_id"], name: "index_orders_on_coupon_id", using: :btree
+  end
+
   create_table "products", force: :cascade do |t|
     t.string   "product_name"
     t.string   "stock"
+    t.integer  "quantity"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
