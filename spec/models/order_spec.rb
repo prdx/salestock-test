@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe Order, type: :model do
   it 'is valid with valid parameters' do
-    expect(Order.create(name: 'Bagus', 
-                        phone: '123', 
-                        email: 'dummy@mail.com', 
+    expect(Order.create(name: 'Bagus',
+                        phone: '123',
+                        email: 'dummy@mail.com',
                         address: 'dummy')).to be_valid
   end
 
   it 'has default status INITIATED' do
-    order = Order.create()
+    order = Order.create
     expect(order.status).to eq('INITIATED')
   end
 
@@ -36,13 +36,13 @@ RSpec.describe Order, type: :model do
   it 'is not valid if coupon exists but coupon quantity is 0' do
     coupon = FactoryGirl.create(:coupon, quantity: 0)
     order = FactoryGirl.build(:order, coupon_id: coupon.id)
-    expect(order).to_not be_valid 
+    expect(order).to_not be_valid
   end
 
   it 'is not valid if coupon exists but coupon is expired' do
     coupon = FactoryGirl.create(:coupon, valid_until: '1990-01-01 00:00')
     order = FactoryGirl.build(:order, coupon_id: coupon.id)
-    expect(order).to_not be_valid 
+    expect(order).to_not be_valid
   end
 
   describe 'count the total prize' do
@@ -64,24 +64,27 @@ RSpec.describe Order, type: :model do
         coupon = FactoryGirl.create(:coupon)
         order = FactoryGirl.create(:order, coupon_id: coupon.id)
         Orderline.create(order_id: order.id, product_id: product.id)
-        discount = coupon.discount / 100 * order.reload.total_prize 
+        discount = coupon.discount / 100 * order.reload.total_prize
         expect(order.reload.total_prize).to eq(
-          order.reload.discounted_total_prize + discount)
+          order.reload.discounted_total_prize + discount
+        )
       end
     end
-    
+
     describe 'has nominal coupon' do
       it 'shows correct discounted prize' do
         product = FactoryGirl.create(:product)
         coupon = FactoryGirl.create(
-          :coupon, 
-          discount_type: 'NOMINAL', 
-          discount: product.prize / 10)
+          :coupon,
+          discount_type: 'NOMINAL',
+          discount: product.prize / 10
+        )
         order = FactoryGirl.create(:order, coupon_id: coupon.id)
         Orderline.create(order_id: order.id, product_id: product.id)
         discount = coupon.discount
         expect(order.reload.total_prize).to eq(
-          order.reload.discounted_total_prize + discount)
+          order.reload.discounted_total_prize + discount
+        )
       end
     end
   end
@@ -107,7 +110,7 @@ RSpec.describe Order, type: :model do
 
       order.status = 'PAYMENT_PROOF_REQUIRED'
       order.save!
-      expect(product.reload.quantity).to eq(previous_product_quantity - 1)  
+      expect(product.reload.quantity).to eq(previous_product_quantity - 1)
     end
 
     it 'reduces the quantity of the used coupon' do
@@ -117,7 +120,7 @@ RSpec.describe Order, type: :model do
 
       order.status = 'PAYMENT_PROOF_REQUIRED'
       order.save!
-      expect(coupon.reload.quantity).to eq(previous_coupon_quantity - 1)  
+      expect(coupon.reload.quantity).to eq(previous_coupon_quantity - 1)
     end
   end
 
@@ -146,7 +149,7 @@ RSpec.describe Order, type: :model do
         previous_product_quantity = product.reload.quantity
         order.status = 'CANCELLED'
         order.save!
-        expect(product.reload.quantity).to eq(previous_product_quantity + 1)  
+        expect(product.reload.quantity).to eq(previous_product_quantity + 1)
       end
 
       it 'increase the quantity of the used coupon' do
@@ -160,7 +163,7 @@ RSpec.describe Order, type: :model do
         order.status = 'CANCELLED'
         order.save!
 
-        expect(coupon.reload.quantity).to eq(previous_coupon_quantity + 1)  
+        expect(coupon.reload.quantity).to eq(previous_coupon_quantity + 1)
       end
     end
 
@@ -174,7 +177,5 @@ RSpec.describe Order, type: :model do
       order.save!
       expect(order.status).to eq('SHIPPED')
     end
-
   end
-
 end

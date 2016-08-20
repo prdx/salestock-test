@@ -25,5 +25,4 @@ RSpec.describe Coupon, type: :model do
     coupon = FactoryGirl.build(:coupon, discount_type: nil)
     expect(coupon).to_not be_valid
   end
-
 end

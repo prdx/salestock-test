@@ -20,13 +20,13 @@ RSpec.describe Orderline, type: :model do
   end
 
   it 'is not valid if order does not exist' do
-    some_random_number = 123884214
+    some_random_number = 123_884_214
     orderline = Orderline.new(order_id: some_random_number, product_id: nil)
     expect(orderline).to_not be_valid
   end
 
   it 'is not valid if product does not exist' do
-    some_random_number = 123884214
+    some_random_number = 123_884_214
     order = FactoryGirl.create(:order)
     orderline = Orderline.new(order_id: order.id, product_id: some_random_number)
     expect(orderline).to_not be_valid
@@ -38,5 +38,4 @@ RSpec.describe Orderline, type: :model do
     orderline = Orderline.new(order_id: order.id, product_id: product.id)
     expect(orderline).to_not be_valid
   end
-
 end

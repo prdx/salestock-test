@@ -8,32 +8,28 @@ class Orderline < ApplicationRecord
 
   def product_quantity_is_not_zero
     if product_id.present?
-      begin 
+      begin
         product = Product.find(product_id)
-        if product.quantity == 0
-          errors.add(:product_id, 'is not available')
-        end
-      rescue ActiveRecord::RecordNotFound 
+        errors.add(:product_id, 'is not available') if product.quantity == 0
+      rescue ActiveRecord::RecordNotFound
         errors.add(:product_id, 'is not available')
       end
     end
   end
 
   def update_order
-    begin
-      order = Order.find(order_id)
-      product = Product.find(product_id)
-      order.total_prize += product.prize
-      if order.coupon_id
-        order.discounted_total_prize = discounted_total_prize(
-          order.total_prize, 
-          order.coupon_id
-        )
-      end
-      order.save!
-    rescue ActiveRecord::RecordNotFound
-      errors.add(:product_id, 'failed to process')
+    order = Order.find(order_id)
+    product = Product.find(product_id)
+    order.total_prize += product.prize
+    if order.coupon_id
+      order.discounted_total_prize = discounted_total_prize(
+        order.total_prize,
+        order.coupon_id
+      )
     end
+    order.save!
+  rescue ActiveRecord::RecordNotFound
+    errors.add(:product_id, 'failed to process')
   end
 
   def discounted_total_prize(total_prize, coupon_id)

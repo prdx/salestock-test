@@ -10,6 +10,7 @@ class Order < ApplicationRecord
   has_many :orderlines
 
   private
+
   def coupon_exists
     if coupon_id.present?
       begin
@@ -24,9 +25,7 @@ class Order < ApplicationRecord
     if coupon_id.present?
       coupon = Coupon.find(coupon_id)
 
-      if coupon.quantity == 0
-        errors.add(:coupon_id, 'is not available')
-      end
+      errors.add(:coupon_id, 'is not available') if coupon.quantity == 0
     end
   end
 
@@ -34,9 +33,7 @@ class Order < ApplicationRecord
     if coupon_id.present?
       coupon = Coupon.find(coupon_id)
 
-      if coupon.valid_until < Date.today
-        errors.add(:coupon_id, 'is expired')
-      end
+      errors.add(:coupon_id, 'is expired') if coupon.valid_until < Date.today
     end
   end
 
@@ -75,6 +72,4 @@ class Order < ApplicationRecord
       end
     end
   end
-
-
 end

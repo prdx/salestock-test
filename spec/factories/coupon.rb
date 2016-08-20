@@ -5,6 +5,5 @@ FactoryGirl.define do
     quantity 10
     discount 25
     discount_type 'PERCENT'
-   end
+  end
 end
-

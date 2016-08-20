@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0'
 # Use sqlite3 as the database for Active Record
@@ -29,6 +28,7 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 3.0'
   gem 'factory_girl'
   gem 'spring-commands-rspec'
+  gem 'rubocop', require: false
 end
 
 group :development do

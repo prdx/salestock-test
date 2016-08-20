@@ -28,11 +28,11 @@ class OrderController < ApplicationController
 
   def order_params
     params.require(:order).permit(
-      :name, 
-      :phone, 
-      :email, 
-      :address, 
-      :status, 
+      :name,
+      :phone,
+      :email,
+      :address,
+      :status,
       :coupon_id
     )
   end
@@ -40,5 +40,4 @@ class OrderController < ApplicationController
   def orderline_params
     params.require(:orderline).permit(:product_id, :order_id)
   end
-
 end
