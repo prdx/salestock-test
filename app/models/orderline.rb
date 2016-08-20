@@ -8,8 +8,12 @@ class Orderline < ApplicationRecord
 
   def product_quantity_is_not_zero
     if product_id.present?
-      product = Product.find(product_id)
-      if product.quantity == 0
+      begin 
+        product = Product.find(product_id)
+        if product.quantity == 0
+          errors.add(:product_id, 'is not available')
+        end
+      rescue ActiveRecord::RecordNotFound 
         errors.add(:product_id, 'is not available')
       end
     end
