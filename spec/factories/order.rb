@@ -1,6 +1,8 @@
 FactoryGirl.define do
   factory :order do
-    status "NOT_VALID"
-    coupon_id "XYZ"
+    name 'Alice'
+    address 'Wonderland 1'
+    email 'dummy@mail.com'
+    phone '+62111111'
   end
 end
