@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  validates_presence_of :name, :phone, :email, :address
+  validates :name, :phone, :email, :address, presence: true
   validate :coupon_exists
   validate :coupon_quantity_is_not_zero
   validate :coupon_is_not_expired
@@ -34,17 +34,17 @@ class Order < ApplicationRecord
     if coupon_id.present?
       coupon = Coupon.find(coupon_id)
 
-      errors.add(:coupon_id, 'is expired') if coupon.valid_until < Date.today
+      errors.add(:coupon_id, 'is expired') if coupon.valid_until < Time.zone.today
     end
   end
 
   def check_if_has_orderline
     if status == 'PAYMENT_PROOF_REQUIRED'
-      orderlines = Orderline.where(order_id: self.id)
+      orderlines = Orderline.where(order_id: id)
 
       if orderlines.count == 0
         self.status = 'INITIATED'
-        errors.add(:status, 'input product first')    
+        errors.add(:status, 'input product first')
       end
     end
   end

@@ -1,5 +1,5 @@
 class Orderline < ApplicationRecord
-  validates_presence_of :order_id, :product_id
+  validates :order_id, :product_id, presence: true
   validate :product_quantity_is_not_zero
 
   before_save :update_order

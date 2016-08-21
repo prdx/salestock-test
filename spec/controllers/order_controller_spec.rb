@@ -33,7 +33,7 @@ RSpec.describe OrderController, type: :controller do
     Orderline.create(order_id: order.id, product_id: product.id)
     order.status = 'PAYMENT_PROOF_REQUIRED'
     order.save
-    
+
     params = {
       format: :json, payment_proof: {
         id: order.id,

@@ -101,7 +101,6 @@ RSpec.describe Order, type: :model do
       expect(order.status).to eq('PAYMENT_PROOF_REQUIRED')
     end
 
-
     it 'cannot update status PAYMENT_PROOF_REQUIRED if no orderline' do
       order = FactoryGirl.create(:order)
       order.status = 'PAYMENT_PROOF_REQUIRED'

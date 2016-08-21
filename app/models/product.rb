@@ -1,4 +1,4 @@
 class Product < ApplicationRecord
-  validates_presence_of :product_name, :quantity
+  validates :product_name, :quantity, presence: true
   has_many :orderlines
 end
