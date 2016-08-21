@@ -22,12 +22,14 @@ gem 'rack-cors'
 gem 'active_model_serializers'
 
 
+gem 'factory_girl'
+gem 'factory_girl_rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '~> 3.5'
   gem 'shoulda-matchers', '~> 3.0'
-  gem 'factory_girl'
   gem 'spring-commands-rspec'
   gem 'rubocop', require: false
   gem 'dotenv-rails'
@@ -44,7 +46,6 @@ group :test do
   gem 'guard', require: false
   gem 'guard-rspec', require: false
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

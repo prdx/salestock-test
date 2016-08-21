@@ -51,7 +51,7 @@ FactoryGirl.define do
     discount_type "NOMINAL"
   end
 
-  factory :order do
+  factory :valid_order, class: Order do
     name 'Alice'
     address 'Wonderland 1'
     email 'dummy@mail.com'
@@ -67,6 +67,6 @@ FactoryGirl.create(:nominal_coupon)
 FactoryGirl.create(:invalid_date_coupon)
 FactoryGirl.create(:invalid_quantity_coupon)
 
-FactoryGirl.create(:order)
+FactoryGirl.create(:valid_order)
 
 
