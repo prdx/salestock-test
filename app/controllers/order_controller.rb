@@ -41,6 +41,24 @@ class OrderController < ApplicationController
     end
   end
 
+  def submit_proof
+    order_id = payment_proof_params[:id]
+    begin
+      @order = Order.find(order_id)
+      if @order.status == 'PAYMENT_PROOF_REQUIRED'
+        if @order.update(payment_proof_params)
+          render json: @order
+        else
+          render json: @order.errors, status: :unprocessable_entity
+        end
+      else
+        render json: 'Order is not valid', status: :unprocessable_entity
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: 'Record not found', status: 404
+    end
+  end
+
   private
 
   def order_params
@@ -56,5 +74,11 @@ class OrderController < ApplicationController
 
   def orderline_params
     params.require(:orderline).permit(:product_id, :order_id)
+  end
+
+  def payment_proof_params
+    params.require(:payment_proof)
+      .permit(:id, :payment_proof)
+      .merge(status: 'PAYMENT_PROOF_SUBMITTED')
   end
 end

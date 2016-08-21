@@ -27,6 +27,24 @@ RSpec.describe OrderController, type: :controller do
     expect(response.status).to eq(422)
   end
 
+  it 'can put payment proof' do
+    order = FactoryGirl.create(:order)
+    product = FactoryGirl.create(:product)
+    Orderline.create(order_id: order.id, product_id: product.id)
+    order.status = 'PAYMENT_PROOF_REQUIRED'
+    order.save
+    
+    params = {
+      format: :json, payment_proof: {
+        id: order.id,
+        payment_proof: 'XYZ1234455'
+      }
+    }
+
+    put :submit_proof, params
+    expect(response.status).to eq(200)
+  end
+
   it 'sends success if checkout is valid' do
     order = FactoryGirl.create(:order)
     product = FactoryGirl.create(:product)
