@@ -1,28 +1,19 @@
-<<<<<<< HEAD
-# README
+# Salestock Test 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Framework: Ruby on Rails 5
 
-Things you may want to cover:
+I make the Dockerfile in case you want to run it locally.
+You can find it here: [salestock-test-docker](https://github.com/prdx/salestock-test-docker)
 
-* Ruby version
 
-* System dependencies
+1. Data
+I provide the seed data for some cases, such as invalid product, invalid coupon, initial order.
 
-* Configuration
+2. Todo
+--* Authorization: There is no authorization for now
 
-* Database creation
+3. Test
+I am using RSpec. To run it you can always use `rspec` command in this project root folder.
 
-* Database initialization
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-=======
-# salestock-test
->>>>>>> b80f0068db673c2253dbbea6ea99d517152ee8b5
