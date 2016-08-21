@@ -18,6 +18,7 @@ If you are using the docker. Please refer to the docker doc.
 
 ## Explanation
 In Order I made statuses to show the flow of an transaction.
+
 | Status | Explanation |
 |--------|-------------|
 | `INTIATED` | It means the order has already created in database but might not yet contains product |
