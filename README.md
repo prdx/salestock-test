@@ -9,9 +9,6 @@ You can find it here: [salestock-test-docker](https://github.com/prdx/salestock-
 ## Data
 I provide the seed data for some cases, such as invalid product, invalid coupon, initial order.
 
-## Todo
- Authorization: There is no authorization for now
-
 ## Test
 I am using RSpec. To run it you can always use `rspec` command in this project root folder.
 If you are using the docker. Please refer to the docker doc.
