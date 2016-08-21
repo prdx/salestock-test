@@ -27,6 +27,20 @@ RSpec.describe OrderController, type: :controller do
     expect(response.status).to eq(422)
   end
 
+  it 'sends success if checkout is valid' do
+    order = FactoryGirl.create(:order)
+    product = FactoryGirl.create(:product)
+    Orderline.create(order_id: order.id, product_id: product.id)
+    get :checkout, id: order.id
+    expect(response.status).to eq(200)
+  end
+
+  it 'sends unprocessable_entity if checkout is valid' do
+    order = FactoryGirl.create(:order)
+    get :checkout, id: order.id
+    expect(response.status).to eq(422)
+  end
+
   it 'sends created after successfully add products' do
     order = FactoryGirl.create(:order)
     product = FactoryGirl.create(:product)

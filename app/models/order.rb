@@ -4,6 +4,7 @@ class Order < ApplicationRecord
   validate :coupon_quantity_is_not_zero
   validate :coupon_is_not_expired
 
+  before_update :check_if_has_orderline
   before_save :update_product_quantity
   before_save :update_coupon_quantity
 
@@ -34,6 +35,17 @@ class Order < ApplicationRecord
       coupon = Coupon.find(coupon_id)
 
       errors.add(:coupon_id, 'is expired') if coupon.valid_until < Date.today
+    end
+  end
+
+  def check_if_has_orderline
+    if status == 'PAYMENT_PROOF_REQUIRED'
+      orderlines = Orderline.where(order_id: self.id)
+
+      if orderlines.count == 0
+        self.status = 'INITIATED'
+        errors.add(:status, 'input product first')    
+      end
     end
   end
 

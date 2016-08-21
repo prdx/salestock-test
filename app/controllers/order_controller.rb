@@ -24,6 +24,23 @@ class OrderController < ApplicationController
     end
   end
 
+  def checkout
+    order_id = params[:id]
+    @orderlines = Orderline.where(order_id: order_id)
+    
+    if @orderlines.count > 0
+      @order = Order.find(order_id)
+      @order.status = 'PAYMENT_PROOF_REQUIRED'
+      if @order.save
+        render json: @order, status: :ok
+      else
+        render json: @order.errors, status: :unprocessable_entity
+      end
+    else
+      render json: 'Input product first', status: :unprocessable_entity
+    end
+  end
+
   private
 
   def order_params
