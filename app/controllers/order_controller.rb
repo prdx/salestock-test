@@ -27,7 +27,7 @@ class OrderController < ApplicationController
   def checkout
     order_id = params[:id]
     @orderlines = Orderline.where(order_id: order_id)
-    
+
     if @orderlines.count > 0
       @order = Order.find(order_id)
       @order.status = 'PAYMENT_PROOF_REQUIRED'
@@ -78,7 +78,7 @@ class OrderController < ApplicationController
 
   def payment_proof_params
     params.require(:payment_proof)
-      .permit(:id, :payment_proof)
-      .merge(status: 'PAYMENT_PROOF_SUBMITTED')
+          .permit(:id, :payment_proof)
+          .merge(status: 'PAYMENT_PROOF_SUBMITTED')
   end
 end
