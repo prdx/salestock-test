@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160821085337) do
+ActiveRecord::Schema.define(version: 20160821101117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,9 @@ ActiveRecord::Schema.define(version: 20160821085337) do
     t.string   "address"
     t.integer  "discounted_total_prize", default: 0
     t.string   "payment_proof"
+    t.string   "shipping_id"
+    t.string   "shipping_partner"
+    t.string   "shipping_status"
     t.index ["coupon_id"], name: "index_orders_on_coupon_id", using: :btree
   end
 

@@ -4,6 +4,16 @@ class OrderController < ApplicationController
     render json: orders, status: 200
   end
 
+  def show
+    order_id = params[:id]
+    begin
+      @order = Order.find(order_id)
+      render json: @order, status: :ok
+    rescue ActiveRecord::RecordNotFound
+      render json: { message: 'Record not found' }, status: 404
+    end
+  end
+
   def create
     @order = Order.new(order_params)
 
@@ -37,7 +47,18 @@ class OrderController < ApplicationController
         render json: @order.errors, status: :unprocessable_entity
       end
     else
-      render json: 'Input product first', status: :unprocessable_entity
+      render json: { message: 'Input product first' }, status: :unprocessable_entity
+    end
+  end
+
+  def search_shipment
+    shipping_id = params[:id]
+    @order = Order.where(shipping_id: shipping_id).first
+
+    if @order
+      render json: @order.shipping_status, status: :ok
+    else
+      render json: { message: 'Record not found' }, status: 404
     end
   end
 
@@ -52,10 +73,28 @@ class OrderController < ApplicationController
           render json: @order.errors, status: :unprocessable_entity
         end
       else
-        render json: 'Order is not valid', status: :unprocessable_entity
+        render json: { message: 'Order is not valid' }, status: :unprocessable_entity
       end
     rescue ActiveRecord::RecordNotFound
-      render json: 'Record not found', status: 404
+      render json: { message: 'Record not found' }, status: 404
+    end
+  end
+
+  def submit_shipment
+    order_id = shipment_params[:id]
+    begin
+      @order = Order.find(order_id)
+      if @order.status == 'PAYMENT_PROOF_SUBMITTED'
+        if @order.update(shipment_params)
+          render json: @order
+        else
+          render json: @order.errors, status: :unprocessable_entity
+        end
+      else
+        render json: { message: 'Order is not valid' }, status: :unprocessable_entity
+      end
+    rescue
+      render json: { message: 'Record not found' }, status: 404
     end
   end
 
@@ -80,5 +119,11 @@ class OrderController < ApplicationController
     params.require(:payment_proof)
           .permit(:id, :payment_proof)
           .merge(status: 'PAYMENT_PROOF_SUBMITTED')
+  end
+
+  def shipment_params
+    params.require(:shipment_info)
+          .permit(:id, :shipping_id, :shipping_partner, :shipping_status)
+          .merge(status: 'SHIPPED')
   end
 end

@@ -45,6 +45,54 @@ RSpec.describe OrderController, type: :controller do
     expect(response.status).to eq(200)
   end
 
+  it 'can put shipment data' do
+    order = FactoryGirl.create(:order)
+    product = FactoryGirl.create(:product)
+    Orderline.create(order_id: order.id, product_id: product.id)
+    order.status = 'PAYMENT_PROOF_SUBMITTED'
+    order.save
+
+    params = {
+      format: :json, shipment_info: {
+        id: order.id,
+        shipping_id: 'HSHA',
+        shipping_partner: 'JNE',
+        shipping_status: 'IN PROGRESS'
+      }
+    }
+
+    put :submit_shipment, params
+    expect(response.status).to eq(200)
+  end
+
+  it 'can search shipment' do
+    order = FactoryGirl.create(:order)
+    product = FactoryGirl.create(:product)
+    Orderline.create(order_id: order.id, product_id: product.id)
+    order.status = 'SHIPPED'
+    order.shipping_id = 'LOREM'
+    order.shipping_partner = 'IPSUM'
+    order.shipping_status = 'IN PROGRESS'
+    order.save
+
+    get :search_shipment, id: order.shipping_id
+    expect(response.status).to eq(200)
+  end
+
+  it 'can search order' do
+    order = FactoryGirl.create(:order)
+    product = FactoryGirl.create(:product)
+    Orderline.create(order_id: order.id, product_id: product.id)
+    order.status = 'SHIPPED'
+    order.shipping_id = 'LOREM'
+    order.shipping_partner = 'IPSUM'
+    order.shipping_status = 'IN PROGRESS'
+    order.save
+
+    get :show, id: order.id
+    expect(response.status).to eq(200)
+  end
+
   it 'sends success if checkout is valid' do
     order = FactoryGirl.create(:order)
     product = FactoryGirl.create(:product)
