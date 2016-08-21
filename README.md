@@ -7,7 +7,7 @@ You can find it here: [salestock-test-docker](https://github.com/prdx/salestock-
 
 
 ## Data
-I provide the seed data for some cases, such as invalid product, invalid coupon, initial order.
+I provide the seed data for some cases, such as invalid product, invalid coupon, initial order. Please run `rake db:create db:migrate db:seed RAILS_ENV=production` `rake db:create db:migrate db:seed RAILS_ENV=development` `rake db:create db:migrate db:seed RAILS_ENV=test` first.
 
 ## Test
 I am using RSpec. To run it you can always use `rspec` command in this project root folder.
