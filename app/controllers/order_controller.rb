@@ -56,7 +56,7 @@ class OrderController < ApplicationController
     @order = Order.where(shipping_id: shipping_id).first
 
     if @order
-      render json: @order.shipping_status, status: :ok
+      render json: { shipping_status: @order.shipping_status }, status: :ok
     else
       render json: { message: 'Record not found' }, status: 404
     end
